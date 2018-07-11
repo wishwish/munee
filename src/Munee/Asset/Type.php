@@ -222,15 +222,35 @@ abstract class Type
      *
      * @throws NotFoundException
      */
-    protected function setupFile($originalFile, $cacheFile)
+    protected function setupFile(&$originalFile, $cacheFile)
     {
         // Check if the file exists
         if (! file_exists($originalFile)) {
-            throw new NotFoundException('File does not exist: ' . str_replace($this->request->webroot, '', $originalFile));
-        }
 
-        // Copy the original file to the cache location
-        copy($originalFile, $cacheFile);
+            // Try using the "common" directory.
+            $alternativeFile = str_replace(WEBROOT , '', $originalFile);
+            preg_match('/^\/(.*)\/static\/(.*)$/', $alternativeFile, $pregMatches);
+            if (!empty($pregMatches[1]) && !empty($pregMatches[2])) {
+                $alternativeFile = WEBROOT . '/common/static/'.$pregMatches[2];
+            }
+            // RE-Check if the file exists
+            if (! file_exists($alternativeFile)) {
+                throw new NotFoundException(
+                    'File does not exist: ' . str_replace($this->request->webroot, '', $originalFile) .
+                    ' || ' . str_replace($this->request->webroot, '', $alternativeFile)
+                );
+            }
+
+            // Copy the alternative file to the cache location
+            copy($alternativeFile, $cacheFile);
+            $originalFile = $alternativeFile;
+
+        } else {
+
+            // Copy the original file to the cache location
+            copy($originalFile, $cacheFile);
+
+        }
     }
 
     /**
