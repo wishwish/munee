@@ -296,7 +296,7 @@ abstract class Type
      */
     protected function checkCache($originalFile, $cacheFile)
     {
-        if (! file_exists($cacheFile) || ! file_exists($originalFile)) {
+        if (! file_exists($cacheFile)/* || ! file_exists($originalFile)*/) {
             return false;
         }
 
