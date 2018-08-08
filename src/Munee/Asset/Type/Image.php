@@ -33,8 +33,10 @@ class Image extends Type
         'checkReferrer' => true,
         // Use a placeholder for missing images?
         'placeholders' => false,
-        'maxAllowedResizeWidth' => 1920,
-        'maxAllowedResizeHeight' => 1080,
+        //'maxAllowedResizeWidth' => 1920,
+        //'maxAllowedResizeHeight' => 1080,
+        'maxAllowedResizeWidth' => 5500,
+        'maxAllowedResizeHeight' => 4000,
         /**
          * Can easily change which image processor to use. Values can be:
          * GD - Default
@@ -77,6 +79,12 @@ class Image extends Type
 
         return $return;
     }
+    
+    // Bad practice, but i'll allow it..
+    protected function beforeFilter($originalFile, $cacheFile)
+    {
+        ini_set('memory_limit', '128M');
+    }
 
     /**
      * Overwrite the _setupFile function so placeholder images can be shown instead of broken images
@@ -85,7 +93,7 @@ class Image extends Type
      * @param string $originalFile
      * @param string $cacheFile
      */
-    protected function setupFile($originalFile, $cacheFile)
+    protected function setupFile(&$originalFile, $cacheFile)
     {
         if (count($this->filters) > 0) {
             $this->checkNumberOfAllowedFilters($cacheFile);
