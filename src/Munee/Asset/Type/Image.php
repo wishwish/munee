@@ -128,6 +128,9 @@ class Image extends Type
             case 'gif':
                 $this->response->headerController->headerField('Content-Type', 'image/gif');
                 break;
+            case 'svg':
+                $this->response->headerController->headerField('Content-Type', 'image/svg+xml');
+                break;
         }
     }
 

@@ -42,7 +42,7 @@ Registry::register(array('js', 'coffee'), function (\Munee\Request $Request) {
 /**
  * Register the Image Asset Class with the extensions .jpg, .jpeg, .gif, and .png
  */
-Registry::register(array('jpg', 'jpeg', 'gif', 'png'), function (\Munee\Request $Request) {
+Registry::register(array('jpg', 'jpeg', 'gif', 'png', 'svg'), function (\Munee\Request $Request) {
     return new \Munee\Asset\Type\Image($Request);
 });
 
