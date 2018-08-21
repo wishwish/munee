@@ -20,7 +20,7 @@ class Font extends Type
      */
     public function getHeaders()
     {
-        $this->response->headerController->headerField('Content-Type', 'application/x-opentype');
+        $this->response->headerController->headerField('Content-Type', 'application/x-font-opentype');
         // TODO check if the header is correct
     }
 }
